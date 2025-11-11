@@ -7,17 +7,23 @@ import org.josepllopis.gestion_usuarios.domain.Profesor;
 import org.josepllopis.gestion_usuarios.dto.RequestAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@AllArgsConstructor
 public class AsignaturaMapper {
 
-    private ProfesorMapper profesorMapper;
-    private AlumnoMapper alumnoMapper;
+
+    @Autowired
+    @Lazy private ProfesorMapper profesorMapper;
+
+
+    @Autowired
+    @Lazy private AlumnoMapper alumnoMapper;
 
 
     public Asignatura toEntity(RequestAsignaturaDTO asignaturaDTO, Set<Profesor> profesores, Set<Alumno> alumnos){

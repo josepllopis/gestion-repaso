@@ -8,6 +8,8 @@ import org.josepllopis.gestion_usuarios.dto.RequestAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.RequestProfesorDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
 import org.josepllopis.gestion_usuarios.repositories.ProfesorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -15,11 +17,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-@AllArgsConstructor
 public class ProfesorMapper {
 
-    private AlumnoMapper alumnoMapper;
-    private AsignaturaMapper asignaturaMapper;
+
+    @Autowired
+    @Lazy private AlumnoMapper alumnoMapper;
+
+    @Autowired
+    @Lazy private AsignaturaMapper asignaturaMapper;
 
     public Profesor toEntity(RequestProfesorDTO profesorDTO, Set<Alumno> alumnos, Set<Asignatura>asignaturas){
         Profesor profesor = new Profesor();

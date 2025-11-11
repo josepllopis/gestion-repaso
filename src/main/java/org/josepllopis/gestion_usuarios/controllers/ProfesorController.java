@@ -3,44 +3,44 @@ package org.josepllopis.gestion_usuarios.controllers;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.josepllopis.gestion_usuarios.dto.RequestAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.RequestProfesorDTO;
-import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
-import org.josepllopis.gestion_usuarios.service.AlumnoService;
+import org.josepllopis.gestion_usuarios.service.ProfesorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/alumnos")
+@RequestMapping("/api/v1/profesores")
 @RequiredArgsConstructor
-public class AlumnoController {
+public class ProfesorController {
 
-    private final AlumnoService alumnoService;
+    private final ProfesorService profesorService;
+
 
     @GetMapping
-    public ResponseEntity<List<ResponseAlumnoDTO>> getProfesores(){
+    public ResponseEntity<List<ResponseProfesorDTO>> getProfesores(){
 
-        List<ResponseAlumnoDTO> listaProfesores = alumnoService.getAlumnos();
+        List<ResponseProfesorDTO> listaProfesores = profesorService.getProfesores();
 
         if(listaProfesores.isEmpty()){
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(alumnoService.getAlumnos());
+        return ResponseEntity.ok(profesorService.getProfesores());
     }
 
     @PostMapping
-    public ResponseEntity<ResponseAlumnoDTO> addProfesor(@Valid @RequestBody RequestAlumnoDTO alumnoDTO){
-        ResponseAlumnoDTO create = alumnoService.addAlumno(alumnoDTO);
+    public ResponseEntity<ResponseProfesorDTO> addProfesor(@Valid @RequestBody RequestProfesorDTO profesorDTO){
+        ResponseProfesorDTO create = profesorService.addProfesor(profesorDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProfesor(@PathVariable Long id){
-        boolean delete = alumnoService.deleteAlumno(id);
+        boolean delete = profesorService.deleteProfesor(id);
 
         if(!delete){
             return ResponseEntity.notFound().build();
@@ -48,5 +48,4 @@ public class AlumnoController {
 
         return ResponseEntity.noContent().build();
     }
-
 }
