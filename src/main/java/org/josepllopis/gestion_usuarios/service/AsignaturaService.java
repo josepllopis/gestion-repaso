@@ -15,4 +15,6 @@ public interface AsignaturaService {
     ResponseAsignaturaDTO createAsignatura(RequestAsignaturaDTO asignaturaDTO);
     Optional<ResponseAsignaturaDTO> updateAsignatura(Long id, ResponseAsignaturaDTO asignaturaDTO);
     boolean deleteAsignatura(Long id);
+    ResponseAsignaturaDTO asignarAsignaturaProf(Long idProfesor, Long idAsignatura);
+    ResponseAsignaturaDTO asignarAsignaturaAlumn(Long idAlumno, Long idAsignatura);
 }

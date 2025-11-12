@@ -17,6 +17,4 @@ public class RequestAsignaturaDTO {
 
 
     private String nombre;
-    private Set<Long> profesores = new HashSet<>();
-    private Set<Long> alumnos = new HashSet<>();
 }

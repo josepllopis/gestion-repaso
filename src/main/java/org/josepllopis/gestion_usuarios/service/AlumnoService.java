@@ -15,4 +15,5 @@ public interface AlumnoService {
     ResponseAlumnoDTO addAlumno(RequestAlumnoDTO alumnoDTO);
     Optional<ResponseAlumnoDTO> updateAlumno(Long id, RequestAlumnoDTO alumnoDTO);
     boolean deleteAlumno(Long id);
+    ResponseAlumnoDTO asignarAlumno(Long idProfesor,Long idAlumno);
 }

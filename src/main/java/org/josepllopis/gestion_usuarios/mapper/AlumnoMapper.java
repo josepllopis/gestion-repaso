@@ -17,29 +17,13 @@ import java.util.stream.Collectors;
 public class AlumnoMapper {
 
 
-
-    @Autowired
-    @Lazy private AsignaturaMapper asignaturaMapper;
-
-    @Autowired
-    @Lazy private ProfesorMapper profesorMapper;
-
-    public Alumno toEntity(RequestAlumnoDTO alumnoDTO, Set<Profesor> profesores, Set<Asignatura> asignaturas){
+    public Alumno toEntity(RequestAlumnoDTO alumnoDTO){
         Alumno alumno = new Alumno();
         alumno.setNombre(alumnoDTO.getNombre());
         alumno.setApellidos(alumnoDTO.getApellidos());
         alumno.setEmail(alumnoDTO.getEmail());
         alumno.setTlfn(alumnoDTO.getTlfn());
         alumno.setLocalidad(alumnoDTO.getLocalidad());
-
-        if(profesores != null && !profesores.isEmpty()){
-            alumno.setProfesores(profesores);
-        }
-
-        if(asignaturas != null && !asignaturas.isEmpty()){
-            alumno.setAsignaturas(asignaturas);
-        }
-
         return alumno;
 
     }
@@ -52,28 +36,7 @@ public class AlumnoMapper {
         alumnoDTO.setEmail(alumno.getEmail());
         alumnoDTO.setTlfn(alumno.getTlfn());
         alumnoDTO.setLocalidad(alumno.getLocalidad());
-
-        if(alumno.getProfesores() != null && !alumno.getProfesores().isEmpty()){
-            alumnoDTO.setProfesores(alumno.getProfesores()
-                    .stream().map(profe->profesorMapper.toRequest(profe)).collect(Collectors.toSet()));
-        }
-
-        if(alumno.getAsignaturas() != null && !alumno.getAsignaturas().isEmpty()){
-            alumnoDTO.setAsignaturas(alumno.getAsignaturas().stream()
-                    .map(asig->asignaturaMapper.toRequest(asig)).collect(Collectors.toSet()));
-        }
-
         return alumnoDTO;
     }
 
-    public RequestAlumnoDTO toRequest(Alumno alumno){
-        RequestAlumnoDTO alumnoDTO = new RequestAlumnoDTO();
-        alumnoDTO.setNombre(alumno.getNombre());
-        alumnoDTO.setApellidos(alumno.getApellidos());
-        alumnoDTO.setEmail(alumno.getEmail());
-        alumnoDTO.setTlfn(alumno.getTlfn());
-        alumnoDTO.setLocalidad(alumno.getLocalidad());
-
-        return alumnoDTO;
-    }
 }

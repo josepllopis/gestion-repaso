@@ -2,6 +2,7 @@ package org.josepllopis.gestion_usuarios.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.josepllopis.gestion_usuarios.dto.RequestAsignaturaDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.mapper.AsignaturaMapper;
 import org.josepllopis.gestion_usuarios.service.AsignaturaService;
@@ -46,5 +47,17 @@ public class AsignaturaController {
         }
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{idProfesor}/vincular-profesor/{idAsignatura}")
+    public ResponseEntity<ResponseAsignaturaDTO> vincularProfesorAsignatura(@PathVariable Long idProfesor, @PathVariable Long idAsignatura){
+        ResponseAsignaturaDTO asignatura = asignaturaService.asignarAsignaturaProf(idProfesor,idAsignatura);
+        return ResponseEntity.status(HttpStatus.OK).body(asignatura);
+    }
+
+    @PutMapping("/{idAlumno}/vincular-alumno/{idAsignatura}")
+    public ResponseEntity<ResponseAsignaturaDTO> vincularAlumnoAsignatura(@PathVariable Long idAlumno, @PathVariable Long idAsignatura){
+        ResponseAsignaturaDTO asignatura = asignaturaService.asignarAsignaturaAlumn(idAlumno,idAsignatura);
+        return ResponseEntity.status(HttpStatus.OK).body(asignatura);
     }
 }

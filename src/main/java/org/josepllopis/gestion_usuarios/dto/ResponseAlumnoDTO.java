@@ -19,6 +19,4 @@ public class ResponseAlumnoDTO {
     private String localidad;
     private String tlfn;
     private String email;
-    private Set<RequestProfesorDTO> profesores = new HashSet<>();
-    private Set<RequestAsignaturaDTO> asignaturas = new HashSet<>();
 }

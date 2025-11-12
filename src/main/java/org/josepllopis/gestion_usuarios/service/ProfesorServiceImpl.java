@@ -1,5 +1,6 @@
 package org.josepllopis.gestion_usuarios.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.josepllopis.gestion_usuarios.domain.Profesor;
 import org.josepllopis.gestion_usuarios.dto.RequestProfesorDTO;
@@ -20,28 +21,33 @@ public class ProfesorServiceImpl implements ProfesorService {
     private ProfesorMapper mapperProfe;
 
     @Override
+    @Transactional
     public List<ResponseProfesorDTO> getProfesores() {
         return repoProfe.findAll().stream().map(mapperProfe::toResponse).toList();
     }
 
     @Override
+    @Transactional
     public Optional<ResponseProfesorDTO> getProfesor(Long id) {
         return repoProfe.findById(id).map(mapperProfe::toResponse);
     }
 
     @Override
+    @Transactional
     public ResponseProfesorDTO addProfesor(RequestProfesorDTO profesorDTO) {
-        Profesor prof = mapperProfe.toEntity(profesorDTO,new HashSet<>(),new HashSet<>());
+        Profesor prof = mapperProfe.toEntity(profesorDTO);
         Profesor profesorInsertado = repoProfe.save(prof);
         return mapperProfe.toResponse(profesorInsertado);
     }
 
     @Override
+    @Transactional
     public Optional<ResponseProfesorDTO> updateProfesor(Long id,RequestProfesorDTO profesorDTO) {
         return Optional.empty();
     }
 
     @Override
+    @Transactional
     public boolean deleteProfesor(Long id) {
         if(!repoProfe.existsById(id)){
             return false;

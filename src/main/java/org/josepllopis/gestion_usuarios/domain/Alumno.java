@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -40,4 +41,14 @@ public class Alumno {
     )
     private Set<Asignatura> asignaturas = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Alumno alumno)) return false;
+        return Objects.equals(id, alumno.id) && Objects.equals(nombre, alumno.nombre) && Objects.equals(apellidos, alumno.apellidos) && Objects.equals(localidad, alumno.localidad) && Objects.equals(tlfn, alumno.tlfn) && Objects.equals(email, alumno.email) && Objects.equals(profesores, alumno.profesores) && Objects.equals(asignaturas, alumno.asignaturas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, apellidos, localidad, tlfn, email, profesores, asignaturas);
+    }
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -25,4 +26,14 @@ public class Asignatura {
     @ManyToMany(mappedBy = "asignaturas")
     private Set<Alumno> alumnos = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Asignatura that)) return false;
+        return Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre) && Objects.equals(profesores, that.profesores) && Objects.equals(alumnos, that.alumnos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, profesores, alumnos);
+    }
 }

@@ -14,6 +14,4 @@ public class ResponseAsignaturaDTO {
 
     private Long id;
     private String nombre;
-    private Set<RequestProfesorDTO> profesores = new HashSet<>();
-    private Set<RequestAlumnoDTO> alumnos = new HashSet<>();
 }

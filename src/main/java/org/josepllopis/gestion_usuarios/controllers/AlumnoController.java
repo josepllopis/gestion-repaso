@@ -3,10 +3,7 @@ package org.josepllopis.gestion_usuarios.controllers;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.josepllopis.gestion_usuarios.dto.RequestAlumnoDTO;
-import org.josepllopis.gestion_usuarios.dto.RequestProfesorDTO;
-import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
-import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
+import org.josepllopis.gestion_usuarios.dto.*;
 import org.josepllopis.gestion_usuarios.service.AlumnoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +44,12 @@ public class AlumnoController {
         }
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{idProfesor}/vincular-alumno/{idAlumno}")
+    public ResponseEntity<ResponseAlumnoDTO> vincularProfesorAsignatura(@PathVariable Long idProfesor, @PathVariable Long idAlumno){
+        ResponseAlumnoDTO alumno = alumnoService.asignarAlumno(idProfesor,idAlumno);
+        return ResponseEntity.status(HttpStatus.OK).body(alumno);
     }
 
 }
