@@ -28,12 +28,14 @@ public class Asignatura {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Asignatura that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre) && Objects.equals(profesores, that.profesores) && Objects.equals(alumnos, that.alumnos);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Asignatura asignatura = (Asignatura) o;
+        return Objects.equals(id, asignatura.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, profesores, alumnos);
+        return Objects.hash(id);
     }
 }

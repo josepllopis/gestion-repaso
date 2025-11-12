@@ -81,4 +81,28 @@ public class AlumnoServiceImpl implements AlumnoService{
         return alumnoMapper.toResponse(alumno);
 
     }
+
+    @Override
+    public ResponseAlumnoDTO desAsignarAlumno(Long idProfesor, Long idAlumno) {
+
+        Profesor profesor = profesorRepository.findById(idProfesor).orElseThrow(()->
+                new RuntimeException("Profesor no encontrado"));
+        Alumno alumno = alumnoRepository.findById(idAlumno).orElseThrow(()->
+                new RuntimeException("Alumno encontrado"));
+
+
+
+        if(profesor.getAlumnos().contains(alumno)){
+            profesor.getAlumnos().remove(alumno);
+
+            profesorRepository.save(profesor);
+        }else{
+            throw new RuntimeException("El alumno no está vinculado a ese profesor");
+        }
+
+
+
+        return alumnoMapper.toResponse(alumno);
+
+    }
 }

@@ -49,15 +49,29 @@ public class AsignaturaController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{idProfesor}/vincular-profesor/{idAsignatura}")
+    //VINCULAR
+    @PutMapping("/{idProfesor}/vincular-profesor-asignatura/{idAsignatura}")
     public ResponseEntity<ResponseAsignaturaDTO> vincularProfesorAsignatura(@PathVariable Long idProfesor, @PathVariable Long idAsignatura){
         ResponseAsignaturaDTO asignatura = asignaturaService.asignarAsignaturaProf(idProfesor,idAsignatura);
         return ResponseEntity.status(HttpStatus.OK).body(asignatura);
     }
 
-    @PutMapping("/{idAlumno}/vincular-alumno/{idAsignatura}")
+    @PutMapping("/{idAlumno}/vincular-alumno-asignatura/{idAsignatura}")
     public ResponseEntity<ResponseAsignaturaDTO> vincularAlumnoAsignatura(@PathVariable Long idAlumno, @PathVariable Long idAsignatura){
         ResponseAsignaturaDTO asignatura = asignaturaService.asignarAsignaturaAlumn(idAlumno,idAsignatura);
+        return ResponseEntity.status(HttpStatus.OK).body(asignatura);
+    }
+
+    //DESVINCULAR
+    @PutMapping("/{idProfesor}/desvincular-profesor-asignatura/{idAsignatura}")
+    public ResponseEntity<ResponseAsignaturaDTO> desVincularProfesorAsignatura(@PathVariable Long idProfesor, @PathVariable Long idAsignatura){
+        ResponseAsignaturaDTO asignatura = asignaturaService.desAsignarAsignaturaProf(idProfesor,idAsignatura);
+        return ResponseEntity.status(HttpStatus.OK).body(asignatura);
+    }
+
+    @PutMapping("/{idAlumno}/desvincular-alumno-asignatura/{idAsignatura}")
+    public ResponseEntity<ResponseAsignaturaDTO> desVincularAlumnoAsignatura(@PathVariable Long idAlumno, @PathVariable Long idAsignatura){
+        ResponseAsignaturaDTO asignatura = asignaturaService.desAsignarAsignaturaAlumn(idAlumno,idAsignatura);
         return ResponseEntity.status(HttpStatus.OK).body(asignatura);
     }
 }

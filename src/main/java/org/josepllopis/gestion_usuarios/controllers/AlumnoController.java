@@ -46,9 +46,15 @@ public class AlumnoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{idProfesor}/vincular-alumno/{idAlumno}")
-    public ResponseEntity<ResponseAlumnoDTO> vincularProfesorAsignatura(@PathVariable Long idProfesor, @PathVariable Long idAlumno){
+    @PutMapping("/{idProfesor}/vincular-alumno-profesor/{idAlumno}")
+    public ResponseEntity<ResponseAlumnoDTO> vincularProfesorAlumno(@PathVariable Long idProfesor, @PathVariable Long idAlumno){
         ResponseAlumnoDTO alumno = alumnoService.asignarAlumno(idProfesor,idAlumno);
+        return ResponseEntity.status(HttpStatus.OK).body(alumno);
+    }
+
+    @PutMapping("/{idProfesor}/desvincular-alumno-profesor/{idAlumno}")
+    public ResponseEntity<ResponseAlumnoDTO> desVincularProfesorAlumno(@PathVariable Long idProfesor, @PathVariable Long idAlumno){
+        ResponseAlumnoDTO alumno = alumnoService.desAsignarAlumno(idProfesor,idAlumno);
         return ResponseEntity.status(HttpStatus.OK).body(alumno);
     }
 

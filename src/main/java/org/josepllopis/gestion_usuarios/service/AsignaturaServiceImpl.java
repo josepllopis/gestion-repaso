@@ -112,5 +112,42 @@ public class AsignaturaServiceImpl implements AsignaturaService{
         return asignaturaMapper.toResponse(asignatura);
     }
 
+    @Override
+    public ResponseAsignaturaDTO desAsignarAsignaturaProf(Long idProfesor, Long idAsignatura) {
+        Profesor profesor = profesorRepository.findById(idProfesor).orElseThrow(()->
+                new RuntimeException("Profesor no encontrado"));
+
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(()->
+                new RuntimeException("Asignatura no encontrada"));
+
+
+        if(profesor.getAsignaturas().contains(asignatura)){
+            profesor.getAsignaturas().remove(asignatura);
+            profesorRepository.save(profesor);
+        }else{
+            throw new RuntimeException("El profesor no está asignado a la asignatura");
+        }
+
+        return asignaturaMapper.toResponse(asignatura);
+    }
+
+    @Override
+    public ResponseAsignaturaDTO desAsignarAsignaturaAlumn(Long idAlumno, Long idAsignatura) {
+        Alumno alumno = alumnoRepository.findById(idAlumno).orElseThrow(()->
+                new RuntimeException("Alumno no encontrado"));
+
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(()->
+                new RuntimeException("Asignatura no encontrada"));
+
+        if(alumno.getAsignaturas().contains(asignatura)){
+            alumno.getAsignaturas().remove(asignatura);
+            alumnoRepository.save(alumno);
+        }else{
+            throw new RuntimeException("El alumno no está vinculado a la asignatura");
+        }
+
+        return asignaturaMapper.toResponse(asignatura);
+    }
+
 
 }

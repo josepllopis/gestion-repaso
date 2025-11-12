@@ -17,4 +17,6 @@ public interface AsignaturaService {
     boolean deleteAsignatura(Long id);
     ResponseAsignaturaDTO asignarAsignaturaProf(Long idProfesor, Long idAsignatura);
     ResponseAsignaturaDTO asignarAsignaturaAlumn(Long idAlumno, Long idAsignatura);
+    ResponseAsignaturaDTO desAsignarAsignaturaProf(Long idProfesor, Long idAsignatura);
+    ResponseAsignaturaDTO desAsignarAsignaturaAlumn(Long idAlumno, Long idAsignatura);
 }
