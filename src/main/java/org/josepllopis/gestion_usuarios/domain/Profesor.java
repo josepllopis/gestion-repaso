@@ -2,9 +2,7 @@ package org.josepllopis.gestion_usuarios.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -14,7 +12,8 @@ import java.util.Set;
 @Table(name = "Profesor")
 @AllArgsConstructor
 @NoArgsConstructor
-
+@Getter
+@Setter
 public class Profesor {
 
     @Id
@@ -55,59 +54,4 @@ public class Profesor {
         return Objects.hash(id);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTlfn() {
-        return tlfn;
-    }
-
-    public void setTlfn(String tlfn) {
-        this.tlfn = tlfn;
-    }
-
-    public String getLocalidad() {
-        return localidad;
-    }
-
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
-    }
-
-    public Set<Alumno> getAlumnos() {
-        return alumnos;
-    }
-
-    public void setAlumnos(Set<Alumno> alumnos) {
-        this.alumnos = alumnos;
-    }
-
-    public Set<Asignatura> getAsignaturas() {
-        return asignaturas;
-    }
-
-    public void setAsignaturas(Set<Asignatura> asignaturas) {
-        this.asignaturas = asignaturas;
-    }
 }

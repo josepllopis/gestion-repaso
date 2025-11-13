@@ -2,7 +2,6 @@ package org.josepllopis.gestion_usuarios.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.josepllopis.gestion_usuarios.domain.Alumno;
 import org.josepllopis.gestion_usuarios.domain.Asignatura;
 import org.josepllopis.gestion_usuarios.domain.Profesor;
@@ -18,14 +17,12 @@ import org.josepllopis.gestion_usuarios.repositories.AsignaturaRepository;
 import org.josepllopis.gestion_usuarios.repositories.ProfesorRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class AsignaturaServiceImpl implements AsignaturaService{
+public class AsignaturaServiceImpl implements AsignaturaService {
 
     private final AsignaturaRepository asignaturaRepository;
     private final AsignaturaMapper asignaturaMapper;
@@ -57,7 +54,7 @@ public class AsignaturaServiceImpl implements AsignaturaService{
     @Override
     @Transactional
     public Optional<ResponseAsignaturaDTO> updateAsignatura(Long id, RequestAsignaturaDTO asignaturaDTO) {
-        return asignaturaRepository.findById(id).map(asig->{
+        return asignaturaRepository.findById(id).map(asig -> {
             asig.setNombre(asignaturaDTO.getNombre());
             asignaturaRepository.save(asig);
             return asignaturaMapper.toResponse(asig);
@@ -67,7 +64,7 @@ public class AsignaturaServiceImpl implements AsignaturaService{
     @Override
     @Transactional
     public boolean deleteAsignatura(Long id) {
-        if(!asignaturaRepository.existsById(id)){
+        if (!asignaturaRepository.existsById(id)) {
             return false;
         }
 
@@ -78,7 +75,6 @@ public class AsignaturaServiceImpl implements AsignaturaService{
     @Override
     @Transactional
     public ResponseAsignaturaDTO asignarAsignaturaProf(Long idProfesor, Long idAsignatura) {
-
         Profesor profesor = profesorRepository.findById(idProfesor)
                 .orElseThrow(() -> new RuntimeException("Profesor no encontrado"));
 
@@ -86,11 +82,10 @@ public class AsignaturaServiceImpl implements AsignaturaService{
                 .orElseThrow(() -> new RuntimeException("Asignatura no encontrada"));
 
 
-
         // Solo agregamos si no está ya
         if (!profesor.getAsignaturas().contains(asignatura)) {
             profesor.getAsignaturas().add(asignatura);
-        }else{
+        } else {
             throw new RuntimeException("La vinculación ya está hecha");
         }
 
@@ -98,18 +93,16 @@ public class AsignaturaServiceImpl implements AsignaturaService{
         profesorRepository.save(profesor);
 
         return asignaturaMapper.toResponse(asignatura);
-
     }
 
     @Override
     public ResponseAsignaturaDTO asignarAsignaturaAlumn(Long idAlumno, Long idAsignatura) {
-
-        Alumno alumno = alumnoRepository.findById(idAlumno).orElseThrow(()->
+        Alumno alumno = alumnoRepository.findById(idAlumno).orElseThrow(() ->
                 new RuntimeException("Alumno no encontrado"));
-        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(()->
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(() ->
                 new RuntimeException("Asignatura no encontrada"));
 
-        if(alumno.getAsignaturas().contains(asignatura)){
+        if (alumno.getAsignaturas().contains(asignatura)) {
             throw new RuntimeException("El alumno ya está vinculado a esta asignatura");
         }
 
@@ -122,17 +115,17 @@ public class AsignaturaServiceImpl implements AsignaturaService{
 
     @Override
     public ResponseAsignaturaDTO desAsignarAsignaturaProf(Long idProfesor, Long idAsignatura) {
-        Profesor profesor = profesorRepository.findById(idProfesor).orElseThrow(()->
+        Profesor profesor = profesorRepository.findById(idProfesor).orElseThrow(() ->
                 new RuntimeException("Profesor no encontrado"));
 
-        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(()->
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(() ->
                 new RuntimeException("Asignatura no encontrada"));
 
 
-        if(profesor.getAsignaturas().contains(asignatura)){
+        if (profesor.getAsignaturas().contains(asignatura)) {
             profesor.getAsignaturas().remove(asignatura);
             profesorRepository.save(profesor);
-        }else{
+        } else {
             throw new RuntimeException("El profesor no está asignado a la asignatura");
         }
 
@@ -141,16 +134,16 @@ public class AsignaturaServiceImpl implements AsignaturaService{
 
     @Override
     public ResponseAsignaturaDTO desAsignarAsignaturaAlumn(Long idAlumno, Long idAsignatura) {
-        Alumno alumno = alumnoRepository.findById(idAlumno).orElseThrow(()->
+        Alumno alumno = alumnoRepository.findById(idAlumno).orElseThrow(() ->
                 new RuntimeException("Alumno no encontrado"));
 
-        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(()->
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(() ->
                 new RuntimeException("Asignatura no encontrada"));
 
-        if(alumno.getAsignaturas().contains(asignatura)){
+        if (alumno.getAsignaturas().contains(asignatura)) {
             alumno.getAsignaturas().remove(asignatura);
             alumnoRepository.save(alumno);
-        }else{
+        } else {
             throw new RuntimeException("El alumno no está vinculado a la asignatura");
         }
 
@@ -159,7 +152,7 @@ public class AsignaturaServiceImpl implements AsignaturaService{
 
     @Override
     public List<ResponseProfesorDTO> devolverProfesores(Long id) {
-        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(()->
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("No existe esta asignatura"));
 
         return asignatura.getProfesores().stream().map(profesorMapper::toResponse).toList();
@@ -167,7 +160,7 @@ public class AsignaturaServiceImpl implements AsignaturaService{
 
     @Override
     public List<ResponseAlumnoDTO> devolverAlumnos(Long id) {
-        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(()->
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("No existe esta asignatura"));
 
         return asignatura.getAlumnos().stream().map(alumnoMapper::toResponse).toList();

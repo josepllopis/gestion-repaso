@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-db
+    environment:
+      ORACLE_PASSWORD: con321
+      ORACLE_ALLOW_REMOTE: "true"
+    ports:
+      - "1522:1521"
+
+  gestion-repaso:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//oracle-db:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: SYSTEM
+      SPRING_DATASOURCE_PASSWORD: con321
+    ports:
+      - "8093:8093"
+    depends_on:
+      - oracle-db

@@ -4,7 +4,7 @@ import org.josepllopis.gestion_usuarios.dto.RequestProfesorDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
-import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;

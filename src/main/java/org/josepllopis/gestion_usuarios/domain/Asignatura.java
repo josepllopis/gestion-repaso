@@ -1,9 +1,7 @@
 package org.josepllopis.gestion_usuarios.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,7 +11,8 @@ import java.util.Set;
 @Table(name = "Asignatura")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Asignatura {
 
     @Id

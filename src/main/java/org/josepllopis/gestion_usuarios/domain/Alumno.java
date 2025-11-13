@@ -1,9 +1,7 @@
 package org.josepllopis.gestion_usuarios.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,7 +11,8 @@ import java.util.Set;
 @Table(name = "Alumno")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Alumno {
 
     @Id
@@ -35,7 +34,7 @@ public class Alumno {
 
     @ManyToMany
     @JoinTable(
-            name="alumno_asignatura",
+            name = "alumno_asignatura",
             joinColumns = @JoinColumn(name = "alumno_id"),
             inverseJoinColumns = @JoinColumn(name = "asignatura_id")
     )

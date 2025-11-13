@@ -1,23 +1,18 @@
 package org.josepllopis.gestion_usuarios.mapper;
 
-import lombok.AllArgsConstructor;
+
 import org.josepllopis.gestion_usuarios.domain.Alumno;
-import org.josepllopis.gestion_usuarios.domain.Asignatura;
-import org.josepllopis.gestion_usuarios.domain.Profesor;
 import org.josepllopis.gestion_usuarios.dto.RequestAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class AlumnoMapper {
 
 
-    public Alumno toEntity(RequestAlumnoDTO alumnoDTO){
+    public Alumno toEntity(RequestAlumnoDTO alumnoDTO) {
         Alumno alumno = new Alumno();
         alumno.setNombre(alumnoDTO.getNombre());
         alumno.setApellidos(alumnoDTO.getApellidos());
@@ -28,7 +23,7 @@ public class AlumnoMapper {
 
     }
 
-    public ResponseAlumnoDTO toResponse(Alumno alumno){
+    public ResponseAlumnoDTO toResponse(Alumno alumno) {
         ResponseAlumnoDTO alumnoDTO = new ResponseAlumnoDTO();
         alumnoDTO.setId(alumno.getId());
         alumnoDTO.setNombre(alumno.getNombre());

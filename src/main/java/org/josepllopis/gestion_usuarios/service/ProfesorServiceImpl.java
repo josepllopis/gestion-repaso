@@ -13,7 +13,7 @@ import org.josepllopis.gestion_usuarios.mapper.ProfesorMapper;
 import org.josepllopis.gestion_usuarios.repositories.ProfesorRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +48,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Override
     @Transactional
-    public Optional<ResponseProfesorDTO> updateProfesor(Long id,RequestProfesorDTO profesorDTO) {
+    public Optional<ResponseProfesorDTO> updateProfesor(Long id, RequestProfesorDTO profesorDTO) {
         return repoProfe.findById(id).map(profesor -> {
             profesor.setNombre(profesorDTO.getNombre());
             profesor.setTlfn(profesorDTO.getTlfn());
@@ -62,7 +62,7 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Override
     @Transactional
     public boolean deleteProfesor(Long id) {
-        if(!repoProfe.existsById(id)){
+        if (!repoProfe.existsById(id)) {
             return false;
         }
         repoProfe.deleteById(id);
@@ -72,7 +72,7 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Override
     @Transactional
     public List<ResponseAlumnoDTO> devolverAlumnos(Long id) {
-        Profesor profesor = repoProfe.findById(id).orElseThrow(()->
+        Profesor profesor = repoProfe.findById(id).orElseThrow(() ->
                 new RuntimeException("Profesor no encontrado"));
 
         return profesor.getAlumnos().stream().map(mapperAlumno::toResponse).toList();
@@ -80,7 +80,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Override
     public List<ResponseAsignaturaDTO> devolverAsignaturas(Long id) {
-        Profesor profesor = repoProfe.findById(id).orElseThrow(()->
+        Profesor profesor = repoProfe.findById(id).orElseThrow(() ->
                 new RuntimeException("Profesor no encontrado"));
 
         return profesor.getAsignaturas().stream().map(mapperAsignatura::toResponse).toList();
