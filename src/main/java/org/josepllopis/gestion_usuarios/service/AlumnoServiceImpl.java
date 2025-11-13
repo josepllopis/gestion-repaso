@@ -6,7 +6,11 @@ import org.josepllopis.gestion_usuarios.domain.Alumno;
 import org.josepllopis.gestion_usuarios.domain.Profesor;
 import org.josepllopis.gestion_usuarios.dto.RequestAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
 import org.josepllopis.gestion_usuarios.mapper.AlumnoMapper;
+import org.josepllopis.gestion_usuarios.mapper.AsignaturaMapper;
+import org.josepllopis.gestion_usuarios.mapper.ProfesorMapper;
 import org.josepllopis.gestion_usuarios.repositories.AlumnoRepository;
 import org.josepllopis.gestion_usuarios.repositories.ProfesorRepository;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class AlumnoServiceImpl implements AlumnoService{
 
     private final AlumnoRepository alumnoRepository;
     private final AlumnoMapper alumnoMapper;
+    private final ProfesorMapper profesorMapper;
+    private final AsignaturaMapper asignaturaMapper;
     private final ProfesorRepository profesorRepository;
 
     @Override
@@ -46,7 +52,16 @@ public class AlumnoServiceImpl implements AlumnoService{
     @Override
     @Transactional
     public Optional<ResponseAlumnoDTO> updateAlumno(Long id, RequestAlumnoDTO alumnoDTO) {
-        return Optional.empty();
+        return alumnoRepository.findById(id).map(alu->
+        {
+            alu.setNombre(alumnoDTO.getNombre());
+            alu.setApellidos(alumnoDTO.getApellidos());
+            alu.setLocalidad(alumnoDTO.getLocalidad());
+            alu.setTlfn(alumnoDTO.getTlfn());
+            alu.setEmail(alumnoDTO.getEmail());
+            alumnoRepository.save(alu);
+            return alumnoMapper.toResponse(alu);
+        });
     }
 
     @Override
@@ -104,5 +119,21 @@ public class AlumnoServiceImpl implements AlumnoService{
 
         return alumnoMapper.toResponse(alumno);
 
+    }
+
+    @Override
+    public List<ResponseProfesorDTO> devolverProfesores(Long id) {
+        Alumno alumno = alumnoRepository.findById(id).orElseThrow(()->
+                new RuntimeException("No existe el alumno"));
+
+        return alumno.getProfesores().stream().map(profesorMapper::toResponse).toList();
+    }
+
+    @Override
+    public List<ResponseAsignaturaDTO> devolverAsignaturas(Long id) {
+        Alumno alumno = alumnoRepository.findById(id).orElseThrow(()->
+                new RuntimeException("No existe el alumno"));
+
+        return alumno.getAsignaturas().stream().map(asignaturaMapper::toResponse).toList();
     }
 }

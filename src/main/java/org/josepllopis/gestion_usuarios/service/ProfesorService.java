@@ -1,6 +1,8 @@
 package org.josepllopis.gestion_usuarios.service;
 
 import org.josepllopis.gestion_usuarios.dto.RequestProfesorDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +17,6 @@ public interface ProfesorService {
     ResponseProfesorDTO addProfesor(RequestProfesorDTO profesorDTO);
     Optional<ResponseProfesorDTO> updateProfesor(Long id, RequestProfesorDTO profesorDTO);
     boolean deleteProfesor(Long id);
+    List<ResponseAlumnoDTO> devolverAlumnos(Long id);
+    List<ResponseAsignaturaDTO> devolverAsignaturas(Long id);
 }

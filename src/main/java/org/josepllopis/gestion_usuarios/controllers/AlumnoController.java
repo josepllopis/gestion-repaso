@@ -3,6 +3,7 @@ package org.josepllopis.gestion_usuarios.controllers;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.josepllopis.gestion_usuarios.domain.Alumno;
 import org.josepllopis.gestion_usuarios.dto.*;
 import org.josepllopis.gestion_usuarios.service.AlumnoService;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/alumnos")
@@ -35,6 +37,11 @@ public class AlumnoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseAlumnoDTO> updateAlumno(@PathVariable Long id, @RequestBody RequestAlumnoDTO alumnoDTO){
+       return alumnoService.updateAlumno(id,alumnoDTO).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProfesor(@PathVariable Long id){
         boolean delete = alumnoService.deleteAlumno(id);
@@ -56,6 +63,29 @@ public class AlumnoController {
     public ResponseEntity<ResponseAlumnoDTO> desVincularProfesorAlumno(@PathVariable Long idProfesor, @PathVariable Long idAlumno){
         ResponseAlumnoDTO alumno = alumnoService.desAsignarAlumno(idProfesor,idAlumno);
         return ResponseEntity.status(HttpStatus.OK).body(alumno);
+    }
+
+    @GetMapping("/profesores/{id}")
+    public ResponseEntity<List<ResponseProfesorDTO>> devolverProfesoresDeAlumno(@PathVariable Long id){
+        Optional<ResponseAlumnoDTO> alumno = alumnoService.getAlumno(id);
+
+        if(alumno.isEmpty()){
+            ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(alumnoService.devolverProfesores(id));
+
+    }
+
+    @GetMapping("/asignaturas/{id}")
+    public ResponseEntity<List<ResponseAsignaturaDTO>> devolverAsignaturasDeAlumno(@PathVariable Long id){
+
+        Optional<ResponseAlumnoDTO> alumno = alumnoService.getAlumno(id);
+        if(alumno.isEmpty()){
+            ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(alumnoService.devolverAsignaturas(id));
     }
 
 }

@@ -9,6 +9,8 @@ import org.josepllopis.gestion_usuarios.domain.Profesor;
 import org.josepllopis.gestion_usuarios.dto.RequestAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
+import org.josepllopis.gestion_usuarios.mapper.AlumnoMapper;
 import org.josepllopis.gestion_usuarios.mapper.AsignaturaMapper;
 import org.josepllopis.gestion_usuarios.mapper.ProfesorMapper;
 import org.josepllopis.gestion_usuarios.repositories.AlumnoRepository;
@@ -27,6 +29,8 @@ public class AsignaturaServiceImpl implements AsignaturaService{
 
     private final AsignaturaRepository asignaturaRepository;
     private final AsignaturaMapper asignaturaMapper;
+    private final ProfesorMapper profesorMapper;
+    private final AlumnoMapper alumnoMapper;
     private final ProfesorRepository profesorRepository;
     private final AlumnoRepository alumnoRepository;
 
@@ -52,8 +56,12 @@ public class AsignaturaServiceImpl implements AsignaturaService{
 
     @Override
     @Transactional
-    public Optional<ResponseAsignaturaDTO> updateAsignatura(Long id, ResponseAsignaturaDTO asignaturaDTO) {
-        return Optional.empty();
+    public Optional<ResponseAsignaturaDTO> updateAsignatura(Long id, RequestAsignaturaDTO asignaturaDTO) {
+        return asignaturaRepository.findById(id).map(asig->{
+            asig.setNombre(asignaturaDTO.getNombre());
+            asignaturaRepository.save(asig);
+            return asignaturaMapper.toResponse(asig);
+        });
     }
 
     @Override
@@ -147,6 +155,22 @@ public class AsignaturaServiceImpl implements AsignaturaService{
         }
 
         return asignaturaMapper.toResponse(asignatura);
+    }
+
+    @Override
+    public List<ResponseProfesorDTO> devolverProfesores(Long id) {
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(()->
+                new RuntimeException("No existe esta asignatura"));
+
+        return asignatura.getProfesores().stream().map(profesorMapper::toResponse).toList();
+    }
+
+    @Override
+    public List<ResponseAlumnoDTO> devolverAlumnos(Long id) {
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(()->
+                new RuntimeException("No existe esta asignatura"));
+
+        return asignatura.getAlumnos().stream().map(alumnoMapper::toResponse).toList();
     }
 
 

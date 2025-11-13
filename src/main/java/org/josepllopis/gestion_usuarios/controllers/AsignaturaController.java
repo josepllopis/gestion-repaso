@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.josepllopis.gestion_usuarios.dto.RequestAsignaturaDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAlumnoDTO;
 import org.josepllopis.gestion_usuarios.dto.ResponseAsignaturaDTO;
+import org.josepllopis.gestion_usuarios.dto.ResponseProfesorDTO;
 import org.josepllopis.gestion_usuarios.mapper.AsignaturaMapper;
 import org.josepllopis.gestion_usuarios.service.AsignaturaService;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/asignaturas")
@@ -49,6 +51,11 @@ public class AsignaturaController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseAsignaturaDTO> updateAsignatura(@PathVariable Long id, @RequestBody RequestAsignaturaDTO asignaturaDTO){
+        return asignaturaService.updateAsignatura(id,asignaturaDTO).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
     //VINCULAR
     @PutMapping("/{idProfesor}/vincular-profesor-asignatura/{idAsignatura}")
     public ResponseEntity<ResponseAsignaturaDTO> vincularProfesorAsignatura(@PathVariable Long idProfesor, @PathVariable Long idAsignatura){
@@ -73,5 +80,27 @@ public class AsignaturaController {
     public ResponseEntity<ResponseAsignaturaDTO> desVincularAlumnoAsignatura(@PathVariable Long idAlumno, @PathVariable Long idAsignatura){
         ResponseAsignaturaDTO asignatura = asignaturaService.desAsignarAsignaturaAlumn(idAlumno,idAsignatura);
         return ResponseEntity.status(HttpStatus.OK).body(asignatura);
+    }
+
+    @GetMapping("/profesores/{id}")
+    public ResponseEntity<List<ResponseProfesorDTO>> devolverProfesoresDeAsignaturas(@PathVariable Long id){
+        Optional<ResponseAsignaturaDTO> asignatura = asignaturaService.getAsignatura(id);
+
+        if(asignatura.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(asignaturaService.devolverProfesores(id));
+    }
+
+    @GetMapping("/alumnos/{id}")
+    public ResponseEntity<List<ResponseAlumnoDTO>> devolverAlumnosDeAsignaturas(@PathVariable Long id){
+        Optional<ResponseAsignaturaDTO> asignatura = asignaturaService.getAsignatura(id);
+
+        if(asignatura.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(asignaturaService.devolverAlumnos(id));
     }
 }
